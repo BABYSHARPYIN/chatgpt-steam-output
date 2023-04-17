@@ -44,7 +44,7 @@ public class ChatController {
     }
 
     /**
-     * 聊天接口
+     * 聊天接口,ChatResponse只在最后返回给客户端,中间的通信都使用 SSE 推送实现
      *
      * @param chatRequest
      * @param headers

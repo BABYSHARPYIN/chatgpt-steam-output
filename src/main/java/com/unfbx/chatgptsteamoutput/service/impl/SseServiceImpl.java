@@ -1,6 +1,5 @@
 package com.unfbx.chatgptsteamoutput.service.impl;
 
-import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.unfbx.chatgpt.OpenAiStreamClient;
@@ -82,6 +81,7 @@ public class SseServiceImpl implements SseService {
 
     @Override
     public ChatResponse sseChat(String uid, ChatRequest chatRequest) {
+        //缓存连接
         if (StrUtil.isBlank(chatRequest.getMsg())) {
             log.info("参数异常，msg为null", uid);
             throw new BaseException("参数异常，msg不能为空~");
@@ -99,9 +99,8 @@ public class SseServiceImpl implements SseService {
             Message currentMessage = Message.builder().content(chatRequest.getMsg()).role(Message.Role.USER).build();
             messages.add(currentMessage);
         }
-
+        //从缓存拿连接对象
         SseEmitter sseEmitter = (SseEmitter) LocalCache.CACHE.get(uid);
-
         if (sseEmitter == null) {
             log.info("聊天消息推送失败uid:[{}],没有创建连接，请重试。", uid);
             throw new BaseException("聊天消息推送失败uid:[{}],没有创建连接，请重试。~");

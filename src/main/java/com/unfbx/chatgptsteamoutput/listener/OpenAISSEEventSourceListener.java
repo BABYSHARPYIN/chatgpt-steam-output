@@ -24,7 +24,7 @@ public class OpenAISSEEventSourceListener extends EventSourceListener {
 
     private long tokens;
 
-    private SseEmitter sseEmitter;
+    private final SseEmitter sseEmitter;
 
     public OpenAISSEEventSourceListener(SseEmitter sseEmitter) {
         this.sseEmitter = sseEmitter;
